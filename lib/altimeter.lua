@@ -285,7 +285,7 @@ function init_altimeter_lib(instrument_operator)
 	function new_altitude(altitude, AP_altitude, vvi_status, VertSpdReq, VertSpd, radioAlt, DH) 
 		if power_on then
 
-			-- Altitude Flash Alert --
+--[[			-- Altitude Flash Alert --
 			-- first reset alerts if AP altitude changes
 			if setAlt ~= AP_altitude then 
 				warning_within_1000_set = false 
@@ -323,7 +323,7 @@ function init_altimeter_lib(instrument_operator)
 				timer_FLASH_deviated = timer_start(nil,500,FLASH_deviated) 
 				warning_deviation_200_set = true 
 			end
-		
+]]		
 			-- MINMUMS
 			
 			if (altitude - baro_minimums) <	2500 then
