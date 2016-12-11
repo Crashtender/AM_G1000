@@ -1,0 +1,154 @@
+--=============
+-- Annunciators
+--=============
+annunciators = {}
+
+function init_annunciators_lib()
+  img_annunciator_border = img_add("color_white.png" , 860 , 460 , 160 , 22)
+  img_annunciator_box = img_add("color_black.png" , 861 , 461 , 158 , 20)
+  grp_annunciator_box = group_add(img_annunciator_border,img_annunciator_box)
+  visible(grp_annunciator_box, false)
+
+	function new_annunciator(a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40,a41,a42,a43,a44,a45,a46,a47,a48,a49,a50,a51,a52,a53,a54,a55,a56,a57,a58,a59,a60,a61,a62,a63,a64,a65,a67)
+
+	-- 	annunciators["annunciator_test_timeout"] = a1 -- y	seconds	Time annunciator test will end (use annunciator_test_pressed instead)
+	-- 	annunciators["annunciator_test_pressed"] = a2 -- n	boolean	True if the annunciator test button is pressed now.
+	-- 	annunciators["master_caution"] = a3 -- y	boolean	Master caution light on/off
+	-- 	annunciators["master_warning"] = a4 -- y	boolean	Master warning
+	-- 	annunciators["master_accept"] = a5 -- y	boolean	Master accept light on/off
+	-- 	annunciators["autopilot_disconnect"] = a6 -- y	boolean	autopilot has been disconnected
+	-- 	annunciators["LOW VACUUM"] = a7 -- y	boolean	low vaccum pressure
+	-- 	annunciators["LOW VOLTS"] = a8 -- 	y	boolean	low battery voltage
+	-- 	annunciators["LOW FUEL"] = a9 -- y	boolean	running out of fuel
+	-- 	annunciators["hydraulic_pressure"] = a10 -- y	boolean	hydraulic pressure low
+	-- 	annunciators["speedbrake"] = a11 -- y	boolean	speedbrakes deployed
+	-- 	annunciators["GPWS"] = a12 -- y	boolean	GPWS failed
+	-- 	annunciators["ICE"] = a13 -- y	boolean	ice detected
+	-- 	annunciators["lo_rotor"] = a14	-- y	boolean	low rotor speed
+	-- 	annunciators["hi_rotor"] = a15	-- y	boolean	high rotor speed
+	-- 	annunciators["pitot_heat_off"] = a16	-- y	boolean	pitot heat off
+	-- 	annunciators["transonic"] = a17	-- y	boolean	transonic
+	-- 	annunciators["slats"] = a18	-- y	boolean	slats deployed
+	-- 	annunciators["flight_director"] = a19	-- y	boolean	flight director failure
+	-- 	annunciators["autopilot"] = a20	-- y	boolean	autopilot failure
+	-- 	annunciators["yaw_damper"] = a21	-- y	boolean	yaw damper failure
+	-- 	annunciators["fuel_pressure_low"] = a22	-- y	boolean	fuel pressure low - per engine
+	-- 	annunciators["oil_pressure_low"] = a23	-- y	boolean	fuel pressure low - per engine
+	-- 	annunciators["oil_temperature_high"] = a24	-- y	boolean	oil temprature high - per engine
+	-- 	annunciators["generator_off"] = a25	-- y	boolean	generator off - per engine
+	-- 	annunciators["chip_detected"] = a26	-- y	boolean	chip detected - per engine
+	-- 	annunciators["engine_fires"] = a27	-- y	boolean	engine fire - per engine
+	-- 	annunciators["igniter_on"] = a28	-- y	boolean	igniter on - per engine
+	-- 	annunciators["reverser_on"] = a29	-- y	boolean	reverser on - per engine
+	-- 	annunciators["burner_on"] = a30	-- y	boolean	burner on - per engine
+	-- 	annunciators["inverter_off"] = a31	-- y	boolean	inverter off - per 2 inverters
+	-- 	annunciators["N1 LOW"] = a32	-- y	boolean	N1 of engine is too low for AC - per engine
+	-- 	annunciators["N1 HIGH"] = a33	-- y	boolean	N1 too high - per engine
+	-- 	annunciators["reverser_not_ready"] = a34	-- y	boolean	reversers not ready
+	-- 	annunciators["ice_vane_extend"] = a35	-- y	boolean	ice vain extended (per engine)
+	-- 	annunciators["ice_vane_fail"] = a36	-- y	boolean	ice vain failed (per engine)
+	-- 	annunciators["bleed_air_off"] = a37	-- y	boolean	bleed air off (per engine)
+	-- 	annunciators["bleed_air_fail"] = a38	-- y	boolean	bleed air failed (per engine)
+	-- 	annunciators["auto_feather_arm"] = a39	-- y	boolean	auto feather armed (per engine)
+	-- 	annunciators["FUEL XFER"] = a40	-- y	boolean	fuel transfer on (per tank)
+	-- 	annunciators["hvac"] = a41	-- y	boolean	duct overheated
+	-- 	annunciators["battery_charge_hi"] = a42	-- y	boolean	battery is charging too rapidly - may overheat
+	-- 	annunciators["cabin_altitude_12500"] = a43	-- y	boolean	cabin altitude at or above 12500
+	-- 	annunciators["autopilot_trim_fail"] = a44	-- y	boolean	autopilot trim failure
+	-- 	annunciators["electric_trim_off"] = a45	-- y	boolean	electric trim is off
+	--	annunciators["CROSSFEED"] = a46	-- y	boolean	crossfeed on
+	--	annunciators["landing_taxi_lite"] = a47	-- y	boolean	landing or taxiway light on but gear up
+	--	annunciators["CABIN DOOR"] = a48	-- y	boolean	cabin door is open
+	-- 	annunciators["EXT POWER"] = a49	-- y	boolean	external power is on
+	-- 	annunciators["passenger_oxy_on"] = a50	-- y	boolean	passenger oxygen on
+	-- 	annunciators["gear_unsafe"] = a51	-- y	boolean	gear is unsafe
+	-- 	annunciators["autopilot_trim_down"] = a52	-- y	boolean	autopilot trimming down
+	-- 	annunciators["autopilot_trim_up"] = a53	-- y	boolean	autopilot trimming up
+	-- 	annunciators["autopilot_bank_limit"] = a54	-- y	boolean	autopilot bank limit is turned ON, autopilot will keep bank below 12.5 degrees of bank
+	-- 	annunciators["autopilot_soft_ride"] = a55	-- y	boolean	autopilot soft ride is on
+	-- 	annunciators["no_inverters"] = a56	-- y	boolean	no inverters are on
+	-- 	annunciators["fuel_pressure"] = a57	-- y	bitfield	fuel pressure low
+	-- 	annunciators["oil_pressure"] = a58	-- y	bitfield	oil pressure low
+	-- 	annunciators["oil_temperature"] = a59	-- y	bitfield	oil temperature too high
+	-- 	annunciators["GENERATOR"] = a60	-- y	bitfield	generators are off or broken
+	-- 	annunciators["chip_detect"] = a61	-- y	bitfield	a chip has been detected in, um, a prop or turbine?
+	-- 	annunciators["ENGINE FIRE"] = a62	-- y	bitfield	yer engines are on fire, fer cryin out loud
+	-- 	annunciators["auto_ignition"] = a63	-- y	bitfield	auto iginition ???
+	-- 	annunciators["reverse"] = a64	-- y	bitfield	reversers deployed
+	-- 	annunciators["afterburners_on"] = a65	-- y	bitfield	afterburners on
+	-- 	annunciators["inverter"] = a66	-- y	bitfield	inverters are off or broken
+	-- 	annunciators["override_annunciators"] = a67	-- y	boolean	Override annunciators
+	
+	end
+
+
+	-- xpl_dataref_subscribe(
+						-- "sim/cockpit/warnings/annunciator_test_timeout","FLOAT",	-- y	seconds	Time annunciator test will end (use annunciator_test_pressed instead)
+						-- "sim/cockpit/warnings/annunciator_test_pressed","INT",	-- n	boolean	True if the annunciator test button is pressed now.
+						-- "sim/cockpit/warnings/annunciators/master_caution","INT",	-- y	boolean	Master caution light on/off
+						-- "sim/cockpit/warnings/annunciators/master_warning","INT",	-- y	boolean	Master warning
+						-- "sim/cockpit/warnings/annunciators/master_accept","INT",	-- y	boolean	Master accept light on/off
+						-- "sim/cockpit/warnings/annunciators/autopilot_disconnect","INT",	-- y	boolean	autopilot has been disconnected
+						-- "sim/cockpit/warnings/annunciators/low_vacuum","INT",	-- y	boolean	low vaccum pressure
+						-- "sim/cockpit/warnings/annunciators/low_voltage","INT",	-- 	y	boolean	low battery voltage
+						-- "sim/cockpit/warnings/annunciators/fuel_quantity","INT",	-- y	boolean	running out of fuel
+						-- "sim/cockpit/warnings/annunciators/hydraulic_pressure","INT",	-- y	boolean	hydraulic pressure low
+						-- "sim/cockpit/warnings/annunciators/speedbrake","INT",	-- y	boolean	speedbrakes deployed
+						-- "sim/cockpit/warnings/annunciators/GPWS","INT",	-- y	boolean	GPWS failed
+						-- "sim/cockpit/warnings/annunciators/ice","INT",	-- y	boolean	ice detected
+						-- "sim/cockpit/warnings/annunciators/lo_rotor","INT",	-- y	boolean	low rotor speed
+						-- "sim/cockpit/warnings/annunciators/hi_rotor","INT",	-- y	boolean	high rotor speed
+						-- "sim/cockpit/warnings/annunciators/pitot_heat_off","INT",	-- y	boolean	pitot heat off
+						-- "sim/cockpit/warnings/annunciators/transonic","INT",	-- y	boolean	transonic
+						-- "sim/cockpit/warnings/annunciators/slats","INT",	-- y	boolean	slats deployed
+						-- "sim/cockpit/warnings/annunciators/flight_director","INT",	-- y	boolean	flight director failure
+						-- "sim/cockpit/warnings/annunciators/autopilot","INT",	-- y	boolean	autopilot failure
+						-- "sim/cockpit/warnings/annunciators/yaw_damper","INT",	-- y	boolean	yaw damper failure
+						-- "sim/cockpit/warnings/annunciators/fuel_pressure_low","INT[8]",	-- y	boolean	fuel pressure low - per engine
+						-- "sim/cockpit/warnings/annunciators/oil_pressure_low","INT[8]",	-- y	boolean	fuel pressure low - per engine
+						-- "sim/cockpit/warnings/annunciators/oil_temperature_high","INT[8]",	-- y	boolean	oil temprature high - per engine
+						-- "sim/cockpit/warnings/annunciators/generator_off","INT[8]",	-- y	boolean	generator off - per engine
+						-- "sim/cockpit/warnings/annunciators/chip_detected","INT[8]",	-- y	boolean	chip detected - per engine
+						-- "sim/cockpit/warnings/annunciators/engine_fires","INT[8]",	-- y	boolean	engine fire - per engine
+						-- "sim/cockpit/warnings/annunciators/igniter_on","INT[8]",	-- y	boolean	igniter on - per engine
+						-- "sim/cockpit/warnings/annunciators/reverser_on","INT[8]",	-- y	boolean	reverser on - per engine
+						-- "sim/cockpit/warnings/annunciators/burner_on","INT[8]",	-- y	boolean	burner on - per engine
+						-- "sim/cockpit/warnings/annunciators/inverter_off","INT[2]",	-- y	boolean	inverter off - per 2 inverters
+						-- "sim/cockpit/warnings/annunciators/N1_low","INT[8]",	-- y	boolean	N1 of engine is too low for AC - per engine
+						-- "sim/cockpit/warnings/annunciators/N1_high","INT[8]",	-- y	boolean	N1 too high - per engine
+						-- "sim/cockpit/warnings/annunciators/reverser_not_ready","INT[8]",	-- y	boolean	reversers not ready
+						-- "sim/cockpit/warnings/annunciators/ice_vane_extend","INT[8]",	-- y	boolean	ice vain extended (per engine)
+						-- "sim/cockpit/warnings/annunciators/ice_vane_fail","INT[8]",	-- y	boolean	ice vain failed (per engine)
+						-- "sim/cockpit/warnings/annunciators/bleed_air_off","INT[8]",	-- y	boolean	bleed air off (per engine)
+						-- "sim/cockpit/warnings/annunciators/bleed_air_fail","INT[8]",	-- y	boolean	bleed air failed (per engine)
+						-- "sim/cockpit/warnings/annunciators/auto_feather_arm","INT[8]",	-- y	boolean	auto feather armed (per engine)
+						-- "sim/cockpit/warnings/annunciators/fuel_transfer","INT[9]",	-- y	boolean	fuel transfer on (per tank)
+						-- "sim/cockpit/warnings/annunciators/hvac","INT",	-- y	boolean	duct overheated
+						-- "sim/cockpit/warnings/annunciators/battery_charge_hi","INT",	-- y	boolean	battery is charging too rapidly - may overheat
+						-- "sim/cockpit/warnings/annunciators/cabin_altitude_12500","INT",	-- y	boolean	cabin altitude at or above 12500
+						-- "sim/cockpit/warnings/annunciators/autopilot_trim_fail","INT",	-- y	boolean	autopilot trim failure
+						-- "sim/cockpit/warnings/annunciators/electric_trim_off","INT",	-- y	boolean	electric trim is off
+						-- "sim/cockpit/warnings/annunciators/crossfeed_on","INT",	-- y	boolean	crossfeed on
+						-- "sim/cockpit/warnings/annunciators/landing_taxi_lite","INT",	-- y	boolean	landing or taxiway light on but gear up
+						-- "sim/cockpit/warnings/annunciators/cabin_door_open","INT",	-- y	boolean	cabin door is open
+						-- "sim/cockpit/warnings/annunciators/external_power_on","INT",	-- y	boolean	external power is on
+						-- "sim/cockpit/warnings/annunciators/passenger_oxy_on","INT",	-- y	boolean	passenger oxygen on
+						-- "sim/cockpit/warnings/annunciators/gear_unsafe","INT",	-- y	boolean	gear is unsafe
+						-- "sim/cockpit/warnings/annunciators/autopilot_trim_down","INT",	-- y	boolean	autopilot trimming down
+						-- "sim/cockpit/warnings/annunciators/autopilot_trim_up","INT",	-- y	boolean	autopilot trimming up
+						-- "sim/cockpit/warnings/annunciators/autopilot_bank_limit","INT",	-- y	boolean	autopilot bank limit is turned ON, autopilot will keep bank below 12.5 degrees of bank
+						-- "sim/cockpit/warnings/annunciators/autopilot_soft_ride","INT",	-- y	boolean	autopilot soft ride is on
+						-- "sim/cockpit/warnings/annunciators/no_inverters","INT",	-- y	boolean	no inverters are on
+						-- "sim/cockpit/warnings/annunciators/fuel_pressure","INT",	-- y	bitfield	fuel pressure low
+						-- "sim/cockpit/warnings/annunciators/oil_pressure","INT",	-- y	bitfield	oil pressure low
+						-- "sim/cockpit/warnings/annunciators/oil_temperature","INT",	-- y	bitfield	oil temperature too high
+						-- "sim/cockpit/warnings/annunciators/generator","INT",	-- y	bitfield	generators are off or broken
+						-- "sim/cockpit/warnings/annunciators/chip_detect","INT",	-- y	bitfield	a chip has been detected in, um, a prop or turbine?
+						-- "sim/cockpit/warnings/annunciators/engine_fire","INT",	-- y	bitfield	yer engines are on fire, fer cryin out loud
+						-- "sim/cockpit/warnings/annunciators/auto_ignition","INT",	-- y	bitfield	auto iginition ???
+						-- "sim/cockpit/warnings/annunciators/reverse","INT",	-- y	bitfield	reversers deployed
+						-- "sim/cockpit/warnings/annunciators/afterburners_on","INT",	-- y	bitfield	afterburners on
+						-- "sim/cockpit/warnings/annunciators/inverter","INT",	-- y	bitfield	inverters are off or broken
+						-- "sim/operation/override/override_annunciators","INT",	-- y	boolean	Override annunciators
+						-- new_annunciator)
+end
