@@ -2,7 +2,42 @@
 -- STARTUP ROUTINE
 --===================================================================================================
 function init_power_lib()
+
+	local power_off_counter = 0
 	
+	local function switch_off()
+		
+			power_on = false
+			
+			power_splash(false)
+			power_HSI(false)
+			power_info_bar(false)
+			power_bottom_bar(false)
+			power_speed_box(false)
+			power_altimeter(false)
+			power_XPDR_box(false)
+			power_time_box(false)
+			power_OAT_box(false)
+			power_NAV_radios(false)
+			power_COM_radios(false)
+			power_SK_menu(false)
+			
+	end
+
+	local function add_to_counter()
+		power_off_counter = power_off_counter + 1
+		info_btm_left(power_off_counter)
+		if power_off_counter == 5 then 
+			switch_off()
+		end
+	end
+	
+	local function connection_lost_checker()
+		if timer_running(tmr_connection_lost_checker) == false then 
+			tmr_connection_lost_checker = timer_start(1000, nil, add_to_counter)
+		end
+	end
+		
 	local generator_on = false
 	
 	local function new_generator(generator, engine_rpm)
@@ -20,7 +55,9 @@ function init_power_lib()
 	local function powered_on(battery, avionics)
 	
 		if (battery[1] == 1 or generator_on) and avionics == 1 then
-		
+			
+			timer_stop(tmr_connection_lost_checker)
+			power_off_counter = 0
 			power_on = true
 			
 			power_splash(true)
@@ -39,20 +76,7 @@ function init_power_lib()
 			
 		else
 			
-			power_on = false
-			
-			power_splash(false)
-			power_HSI(false)
-			power_info_bar(false)
-			power_bottom_bar(false)
-			power_speed_box(false)
-			power_altimeter(false)
-			power_XPDR_box(false)
-			power_time_box(false)
-			power_OAT_box(false)
-			power_NAV_radios(false)
-			power_COM_radios(false)
-			power_SK_menu(false)
+			connection_lost_checker()
 			
 		end
 		
