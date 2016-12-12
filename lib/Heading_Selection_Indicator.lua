@@ -35,7 +35,7 @@ function init_HSI_lib(instrument_operator)
 	visible(grp_turnrate, false)
 
 	-- Heading Bug --
-	local img_HDG_bug = img_add("heading_bug.png", 448 , 444 , 25, 8)
+	local img_HDG_bug = img_add("heading_bug.png", 448 , 444 , 25, 291)
 
 	-- Current Heading box --
 	local img_hdg_box_pointer = img_add("color_white.png", 452 , 424 , 16 , 16)
@@ -108,6 +108,8 @@ function init_HSI_lib(instrument_operator)
 			visible(grp_VOR2_needle,power)
 			visible(grp_turnrate, power)
 		end
+		
+	new_HSI_source(0, 0)
 	end
 	
 	-- HSI modus 360/arc
@@ -331,17 +333,7 @@ function init_HSI_lib(instrument_operator)
 							new_HSI_source)
 
 
-	local function new_HSI(	pilot_source, copilot_source, 
-							pilot_compasHDG, copilot_compasHDG, 
-							apheading, 
-							pilot_turn_rate_hdg, copilot_turn_rate_hdg,
-							nav1crs, 
-							pilot_nav1hdef, copilot_nav1hdef,
-							nav1fromto, 
-							nav2crs,
-							pilot_nav2hdef, copilot_nav2hdef, 
-							nav2fromto,
-							gpshdef, groundtrack, gpsfromto)
+	local function new_HSI(	pilot_source, copilot_source, pilot_compasHDG, copilot_compasHDG, apheading, pilot_turn_rate_hdg, copilot_turn_rate_hdg,nav1crs, pilot_nav1hdef, copilot_nav1hdef,nav1fromto, nav2crs,pilot_nav2hdef, copilot_nav2hdef, nav2fromto,gpshdef, groundtrack, gpsfromto)
 		local x , y
 		if power_on then
 		
@@ -482,6 +474,7 @@ function init_HSI_lib(instrument_operator)
 					  "sim/cockpit/gps/course", "FLOAT" ,
 					  "sim/cockpit2/radios/indicators/gps_fromto", "INT",
 					  new_HSI)
-	
+					  
+	-- To initialize screen set
 	HSI_360()
 end
