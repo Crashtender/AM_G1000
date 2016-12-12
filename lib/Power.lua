@@ -4,8 +4,9 @@
 function init_power_lib()
 	
 	local generator_on = false
+	
 	local function new_generator(generator, engine_rpm)
-		if (generator[1] == 1 and engine_rpm[1] > 500) then 
+		if (generator[1] == 1 and engine_rpm[1] > 200) then 
 			generator_on = true
 		else
 			generator_on = false
@@ -18,7 +19,7 @@ function init_power_lib()
 	
 	local function powered_on(battery, avionics)
 	
-		if (battery[1] == 1 or generator_on and avionics == 1) then
+		if (battery[1] == 1 or generator_on) and avionics == 1 then
 		
 			power_on = true
 			
