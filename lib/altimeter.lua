@@ -226,104 +226,108 @@ function init_altimeter_lib(instrument_operator)
 	end
 	
 	-- Variables for altitude alerting
-	local setAlt = 0
-	local warning_within_1000_set = false 
-	local warning_within_200_set = false 
-	local warning_deviation_200_set = false
-		
-	local flash_count = 0
-	local blinking = false
+	local setAlt = 9999 -- comparison for change in set AP altitude
+	xpl_dataref_write ( "sim/cockpit/autopilot/altitude", "FLOAT", 4000 ) -- set initial AP altitude at FL060
+	local warning_within_1000_set = false	--
+	local warning_within_200_set = false	-- initialize all altitude warning checkers
+	local warning_deviation_200_set = false	--
+
+	local flash_count = 1 -- counter for the altitude alert flashes
 
 	function FLASH_1000()
-		if flash_count == 0 or flash_count == 2 or flash_count == 4 then
-			visible(img_set_alt_box_cyan,false)
-			txt_style(txt_altitude_set, font_altitude_set_cyan) 
-		else
+		if flash_count == 1 or flash_count == 2 or flash_count == 3 or flash_count == 4  or flash_count == 5 then
 			visible(img_set_alt_box_cyan,true)
 			txt_style(txt_altitude_set, font_altitude_set_black) 
-			flash_count = flash_count +1 
 			if flash_count == 5 then 
-			   stop_timer(timer_FLASH_1000)
-			   blinking = false
-			   flash_count = 0 
+			   timer_stop(timer_FLASH_1000)
 			end 
+		else
+			visible(img_set_alt_box_cyan,false)
+			txt_style(txt_altitude_set, font_altitude_set_cyan)
 		end
+		flash_count = flash_count + 0.5 
 	end
 
 	function FLASH_200()
-		if flash_count == 0 or flash_count == 2 or flash_count == 4 then
-			visible(img_set_alt_box_cyan,true)
-			txt_style(txt_altitude_set, font_altitude_set_black)
-		else
+		if flash_count == 1 or flash_count == 2 or flash_count == 3 or flash_count == 4  or flash_count >= 5 then
 			visible(img_set_alt_box_cyan,false)
 			txt_style(txt_altitude_set, font_altitude_set_cyan) 
-			flash_count = flash_count + 1 
 			if flash_count == 5 then 
-			   stop_timer(timer_FLASH_200) 
-			   blinking = false
-			   flash_count = 0 
+			   stop_timer(timer_FLASH_200)
 			end
+		else
+			visible(img_set_alt_box_cyan,true)
+			txt_style(txt_altitude_set, font_altitude_set_black)
 		end
+		flash_count = flash_count + 0.5 
 	end
 	
 	function FLASH_deviated()
-		if flash_count == 0 or flash_count == 2 or flash_count == 4 then
+		if flash_count == 1 or flash_count == 2 or flash_count == 3 or flash_count == 4  or flash_count == 5 then
 			visible(img_set_alt_box_gold,true)
 			txt_style(txt_altitude_set, font_altitude_set_black)
 		else
 			visible(img_set_alt_box_gold,false)
-			txt_style(txt_altitude_set, font_altitude_set_gold) 
-			flash_count = flash_count +1 
-			if flash_count == 5 then 
-			   stop_timer(timer_FLASH_deviated) 
-			   flash_count = 0 
-			   blinking = false
+			txt_style(txt_altitude_set, font_altitude_set_yellow) 
+			if flash_count == 5.5 then 
+				stop_timer(timer_FLASH_deviated) 
 			end
 		end
+		flash_count = flash_count + 0.5
 	end
 	
-	function new_altitude(altitude, AP_altitude, vvi_status, VertSpdReq, VertSpd, radioAlt, DH) 
+	function new_altitude(onground, altitude, AP_altitude, vvi_status, VertSpdReq, VertSpd, radioAlt, DH) 
 		if power_on then
-
---[[			-- Altitude Flash Alert --
+info_btm_left(flash_count)
+		-- Altitude Flash Alert --
 			-- first reset alerts if AP altitude changes
 			if setAlt ~= AP_altitude then 
 				warning_within_1000_set = false 
 				warning_within_200_set = false 
 				warning_deviation_200_set = false
+				setAlt = AP_altitude
+			
+				-- Check if the timers are running to stop them
+				if timer_running(timer_FLASH_1000) then
+					timer_stop(timer_FLASH_1000)
+				end
+				if timer_running(timer_FLASH_200) then
+					timer_stop(timer_FLASH_200)
+				end
+				if timer_running(timer_FLASH_deviated) then
+					timer_stop(timer_FLASH_deviated)
+				end
 			end
 			
-			setAlt = AP_altitude
+			--if onground == 0 then -- Only evaluate the ALT alert when airborne
 			
-			-- check if we are within 1000 ft of set AP altitude
-			if math.abs(AP_altitude-altitude) < 1000 then 
-				if warning_within_1000_set ~= true then
-					flash_count = 0 
-					if not blinking then 
-						timer_FLASH_1000 = timer_start(500, 500, FLASH_1000) -- start blinking
-						blinking = true
-					end
-				end 
-				warning_within_1000_set = true 
-			end
-			
-			-- check if we are within 200 ft of set AP altitude
-			if math.abs(AP_altitude-altitude) < 200 then 
-			   if warning_within_200_set ~= true then
-					flash_count = 0 
-					if not blinking then 
-						timer_FLASH_200 = timer_start(nil,500,FLASH_200) -- start blinking
-						blinking = true
+				-- check if we are within 1000 ft of set AP altitude
+				if math.abs(AP_altitude-altitude) < 1000 then -- if so
+					if warning_within_1000_set == false then -- and alert is not triggered yet
+						warning_within_1000_set = true -- set alert to triggered
+						flash_count = 0
+						timer_FLASH_1000 = timer_start(0, 500, FLASH_1000) -- start flashing
+					end 
+				end
+				
+				-- check if we are within 200 ft of set AP altitude, as above
+				if math.abs(AP_altitude-altitude) < 200 then 
+					if warning_within_200_set == false then
+						warning_within_200_set = true 
+						flash_count = 0
+						timer_FLASH_200 = timer_start(0,500,FLASH_200)
 					end
 				end
-				warning_within_200_set = true 
-			end
-			
-			if warning_within_1000_set == true and warning_within_200_set == true and math.abs(AP_altitude-altitude) > 200 then 
-				timer_FLASH_deviated = timer_start(nil,500,FLASH_deviated) 
-				warning_deviation_200_set = true 
-			end
-]]		
+				
+				if warning_within_1000_set == true and warning_within_200_set == true and math.abs(AP_altitude-altitude) > 200 then 
+					if warning_deviation_200_set == false then
+						warning_deviation_200_set = true
+						flash_count = 0
+						timer_FLASH_deviated = timer_start(0,500,FLASH_deviated) 
+					end
+				end
+			--end
+
 			-- MINMUMS
 			
 			if (altitude - baro_minimums) <	2500 then
@@ -375,7 +379,7 @@ function init_altimeter_lib(instrument_operator)
 			elseif VertSpd == 0 then
 				visible(grp_altitude_trend, false)
 			end
-			 
+			
 			-- Altitude indicator -- 
 			-- Tape -- 
 			running_txt_move_carot(altitude_tape_running_txt, (altitude /100) * -1) 
@@ -429,7 +433,8 @@ function init_altimeter_lib(instrument_operator)
 
    --------------------------------------------------------------------------------------------- 
 
-   xpl_dataref_subscribe( 
+   xpl_dataref_subscribe(
+						"sim/flightmodel/failures/onground_any", "INT",
 						"sim/cockpit2/gauges/indicators/altitude_ft_pilot" , "FLOAT" , 
 						"sim/cockpit/autopilot/altitude", "FLOAT", 
 						"sim/cockpit2/autopilot/vvi_status", "INT",
@@ -438,12 +443,13 @@ function init_altimeter_lib(instrument_operator)
 						"sim/cockpit2/gauges/actuators/radio_altimeter_bug_ft_pilot", "FLOAT", 
 						"sim/cockpit/misc/radio_altimeter_minimum", "FLOAT", 
 						new_altitude) 
-   fsx_variable_subscribe(
-						"INDICATED ALTITUDE", "Feet", 
-						"AUTOPILOT ALTITUDE LOCK VAR", "Feet", 
-						"AUTOPILOT VERTICAL HOLD VAR", "Feet/minute", 
-						"RADIO HEIGHT", "Feet", 
-						new_altitude)
+						
+   -- fsx_variable_subscribe(
+						-- "INDICATED ALTITUDE", "Feet", 
+						-- "AUTOPILOT ALTITUDE LOCK VAR", "Feet", 
+						-- "AUTOPILOT VERTICAL HOLD VAR", "Feet/minute", 
+						-- "RADIO HEIGHT", "Feet", 
+						-- new_altitude)
 
    --------------------------------------------------------------------------------------------- 
    xpl_dataref_subscribe("sim/cockpit2/gauges/actuators/barometer_setting_in_hg_pilot","FLOAT", new_BARO)

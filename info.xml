@@ -6,36 +6,12 @@
     <compatibleP3D>false</compatibleP3D>
     <compatibleXPL>true</compatibleXPL>
     <configVersion>1</configVersion>
-    <description>If you want to invest coding time in this project please contact me first to keep things organized.
+    <description>Want to add code or report issues?
+Please visit:
 
-V1.01
--------
-- Corrected: line art (1 pixel =&gt; 2 pixels) to improve visuals 
-   on lower resolution screens
-- Corrected: VSI numbers (rounded to nearest 50)
-- Corrected: Turn indicator turn rate
-- Corrected: Turn rate maximum deflection
-- Corrected: Limited travel for AP altitude bug
-- Added: Semi transparent compas rose background
-- Added: Bearing needles
-- Added: Startup routine ability to improve reality
-- Added: Flight Director
-- Added: TMR/REF menu
-- Added: Barometric Minimums
-- Partly Added: Annunciators
+github.com/Crashtender/AM_G1000
 
-V1.00
--------
-First release of the G1000 PFD. Currently containing the most basic functions.
-
-To control his instrument use the G1000 bezel AND the AFCS Control Unit (GMC 710)
-
-Post your feedback or requests at the forum.
-https://siminnovations.com/forums/viewtopic.php?f=26&amp;t=41
-      
-If you want to invest coding time in this project please contact me first to keep things organized.
-      
-Updates will follow.</description>
+</description>
     <pluginInterfaceVersion>100</pluginInterfaceVersion>
     <prefHeight>768</prefHeight>
     <prefWidth>1024</prefWidth>
