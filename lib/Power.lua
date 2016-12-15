@@ -21,6 +21,7 @@ function init_power_lib()
 			power_NAV_radios(false)
 			power_COM_radios(false)
 			power_SK_menu(false)
+			power_attitude(false)
 			
 	end
 
@@ -87,7 +88,7 @@ function init_power_lib()
 					  "sim/cockpit/electrical/avionics_on", "INT",
 					  powered_on)
 
-
+	-- When in development mode make sure the instrument powers on
 	if instrument_prop("DEVELOPMENT") then
 		new_generator({1,0,0,0,0,0,0,0},{1200.0,0,0,0,0,0,0,0})
 		powered_on({1,0,0,0,0,0,0,0}, 1)
