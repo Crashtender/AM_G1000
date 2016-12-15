@@ -278,7 +278,6 @@ function init_altimeter_lib(instrument_operator)
 	
 	function new_altitude(onground, altitude, AP_altitude, vvi_status, VertSpdReq, VertSpd, radioAlt, DH) 
 		if power_on then
-info_btm_left(flash_count)
 		-- Altitude Flash Alert --
 			-- first reset alerts if AP altitude changes
 			if setAlt ~= AP_altitude then 
