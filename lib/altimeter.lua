@@ -304,8 +304,8 @@ function init_altimeter_lib(instrument_operator)
 				if math.abs(AP_altitude-altitude) < 1000 then -- if so
 					if warning_within_1000_set == false then -- and alert is not triggered yet
 						warning_within_1000_set = true -- set alert to triggered
-						flash_count = 0
-						timer_FLASH_1000 = timer_start(0, 500, FLASH_1000) -- start flashing
+						flash_count = 0 -- start counting from 0
+						timer_FLASH_1000 = timer_start(0, 500, FLASH_1000) -- trigger the flash state every 500 milliseconds
 					end 
 				end
 				
